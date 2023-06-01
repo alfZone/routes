@@ -6,7 +6,11 @@ Version 1.0
 2023/03/06
 
 # install
-Copy all files to the website root, edit the routes file to match a route to a file. Each route or set of routes should correspond to a website service.
+1. Copy all files to the website root.
+
+2. Update .htaccess for the actual configuration. Change line 3 to set for the url to public folder.
+
+edit the routes file to match a route to a file. Each route or set of routes should correspond to a website service.
 In order to edit the routes.php file to make the correspondence you need to open the file and add the desired route and the corresponding service. For example, if you want to match the route "/my-route" to the "my-service" service, you can add the following line to the routes.php file:
 
 Route::get('/my-route', 'MyService@index');
