@@ -1,8 +1,11 @@
 <?php
 use src\Route as Route;
 
-Route::get('/', function(){require _CAMINHO_TEMPLATE1. "index.php";});
-Route::get('/admin', function(){require _CAMINHO_TEMPLATE_ADMIN. "/index.php";});
+
+Route::get(['set' => '/base/index', 'as' => 'base.index'], 'Controller@index'); 
+Route::get(['set' => '/base/show/{id}', 'as' => 'base.show'], 'Controller@show'); 
+
+Route::get('/', function(){require _CAMINHO_TEMPLATE. "index.php";});
 
 //Artigos
 Route::get(['set' => '/artigos/numeros', 'as' => 'artigos.contarArtigos'], 'ControllerArtigos@contarArtigos');
