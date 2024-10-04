@@ -2,8 +2,7 @@
 
 namespace src;
 
-class Request
-{
+class Request{
 
 	protected $files;
 	protected $base;
@@ -12,8 +11,7 @@ class Request
 	protected $protocol;
 	protected $data = [];
 
-	public function __construct()
-	{
+	public function __construct(){
 		$this->base = $_SERVER['REQUEST_URI'];
 		$this->uri  = $_REQUEST['uri'] ?? '/';
 		$this->method = strtolower($_SERVER['REQUEST_METHOD']);
@@ -27,10 +25,8 @@ class Request
 
 	}
 
-	protected function setData()
-	{
-		switch($this->method)
-		{
+	protected function setData(){
+		switch($this->method){
 			case 'post':
 			$this->data = $_POST;
 			break;
@@ -51,8 +47,7 @@ class Request
 		}
 	}
 
-	public function base()
-	{
+	public function base(){
 		return $this->base;
 	}
 
@@ -65,33 +60,26 @@ class Request
 		return $this->uri;
 	}
 
-	public function all()
-	{
+	public function all()	{
 		return $this->data();
 	}
 
-	public function __isset($key)
-	{
+	public function __isset($key)	{
 		return isset($this->data[$key]);
 	}
 
-	public function __get($key)
-	{
-		if(isset($this->data[$key])) 
-		{
+	public function __get($key)	{
+		if(isset($this->data[$key])) {
 			return $this->data[$key];
 		}
 	}
 
 	public function hasFile($key) {
-
 		return isset($this->files[$key]);
 	}
 
 	public function file($key){
-
-		if(isset($this->files[$key])) 
-		{
+		if(isset($this->files[$key])) {
 			return $this->files[$key];
 		}
 	}
