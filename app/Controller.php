@@ -13,7 +13,7 @@ class Controller{
 
 	public function index(){
 		$data = array_map(function($row){
-			return '<tr><td>' . $row['nome'] . '</td><td>' . $row['telefone'] . '</td><td><a href="' . route('clientes.show', $row['id'])  .'">Detalhes</a></td></tr>';
+			return '<tr><td>' . $row['nome'] . '</td><td>' . $row['telefone'] . '</td><td><a href="' .'/public/base/show/'. $row['id']  .'">Detalhes</a></td></tr>';
 		}, $this->clientes);
 		echo '<table>' . implode('', $data) .'</table>';
 	}
@@ -27,7 +27,7 @@ class Controller{
 			}
 		}
 		$data = 'nome: ' . $cliente['nome'] . '</br>telefone: ' . $cliente['telefone'];
-		$data .= "<br /><a href='" . route('clientes.index') . "'>Clique aqui para voltar para lista</a>";
+		$data .= "<br /><a href='" .'/public/base/index/' . "'>Clique aqui para voltar para lista</a>";
 		echo $data;
 	}
 
