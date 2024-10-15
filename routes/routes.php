@@ -1,5 +1,6 @@
 <?php
 use src\Route as Route;
+use classes\authentication\Authentication;
 
 
 Route::get(['set' => '/base/index', 'as' => 'base.index'], 'Controller@index'); 
@@ -25,6 +26,20 @@ Route::post('/users', function(){  require _CAMINHO_ADMIN. "utilizadoresGere.php
 Route::get(['set' => '/users/lista', 'as' => 'users.listOfUsers'], 'ControllerUser@listOfUsers');
 
 //Autenticação
+$aut=new Authentication();
+if ($aut->isLoged()){
 
+}else{
+  //echo "Não tem acesso";
+  //header('Location: https://www.esmonserrate.org/public/semAcesso');
+  //exit;
+  Route::get('/{any}', function(){  require _CAMINHO_ERROS. "erro401.php";});
+  Route::get('/{any}/{any}', function(){  require _CAMINHO_ERROS. "erro401.php";});
+  Route::get('/{any}/{any}/{any}', function(){  require _CAMINHO_ERROS. "erro401.php";});
+}
+
+Route::get('/{any}', function(){  require _CAMINHO_ERROS. "erro404.php";});
+Route::get('/{any}/{any}', function(){  require _CAMINHO_ERROS. "erro404.php";});
+Route::get('/{any}/{any}/{any}', function(){  require _CAMINHO_ERROS. "erro404.php";});
 
 ?>
