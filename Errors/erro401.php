@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-md-12 text-center">
            <img src="/templates/Errors/images/401.png" class="img-fluid" alt="Page not Found" width="100%">
-          <a href="https://esmonserrate.org/administrator"><button>Voltar</button></a> 
+          <a href="<?=_URL?>/administrator"><button>Voltar</button></a> 
         </div>
       </div>
     </div>
