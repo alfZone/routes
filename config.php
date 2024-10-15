@@ -1,5 +1,7 @@
 <?php 
 
+define("_URL", 'https://mydomais.org/');
+
 define("_SERVER", 'localhost');
 define("_BDUSER", 'USERNAME');
 define("_BDPASS", 'PASSWORD');
