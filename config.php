@@ -7,5 +7,6 @@ define("_BD", 'DBNAME');
 
 define("_CAMINHO_TEMPLATE", '../templates/base/');
 define("_CAMINHO_ADM", '../admin/');
+define("_CAMINHO_ERROS", "../templates/Errors/");
 
 ?>
