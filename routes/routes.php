@@ -2,12 +2,11 @@
 use src\Route as Route;
 use classes\authentication\Authentication;
 
+//Zona sem autenticação
 Route::get('/', function(){require _CAMINHO_TEMPLATE. "index.html";});
 
 Route::get(['set' => '/base/index', 'as' => 'base.index'], 'Controller@index'); 
 Route::get(['set' => '/base/show/{id}', 'as' => 'base.show'], 'Controller@show'); 
-
-
 
 //Artigos
 Route::get(['set' => '/artigos/numeros', 'as' => 'artigos.contarArtigos'], 'ControllerArtigos@contarArtigos');
@@ -22,6 +21,7 @@ Route::get(['set' => '/users/lista', 'as' => 'users.listOfUsers'], 'ControllerUs
 //Autenticação
 $aut=new Authentication();
 if ($aut->isLoged()){
+  //Zona com autenticação
   //Users
   Route::get('/users', function(){  require _CAMINHO_ADMIN. "utilizadoresGere.php";});          //mostra todos os users
   Route::post('/users', function(){  require _CAMINHO_ADMIN. "utilizadoresGere.php";}); 
