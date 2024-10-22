@@ -2,11 +2,12 @@
 use src\Route as Route;
 use classes\authentication\Authentication;
 
+Route::get('/', function(){require _CAMINHO_TEMPLATE. "index.html";});
 
 Route::get(['set' => '/base/index', 'as' => 'base.index'], 'Controller@index'); 
 Route::get(['set' => '/base/show/{id}', 'as' => 'base.show'], 'Controller@show'); 
 
-Route::get('/', function(){require _CAMINHO_TEMPLATE. "index.php";});
+
 
 //Artigos
 Route::get(['set' => '/artigos/numeros', 'as' => 'artigos.contarArtigos'], 'ControllerArtigos@contarArtigos');
