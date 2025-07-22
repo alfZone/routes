@@ -8,6 +8,13 @@ Route::get('/', function(){require _CAMINHO_TEMPLATE. "index.html";});
 Route::get(['set' => '/base/index', 'as' => 'base.index'], 'Controller@index'); 
 Route::get(['set' => '/base/show/{id}', 'as' => 'base.show'], 'Controller@show'); 
 
+//api general
+Route::get(['set' => '/api/{table}', 'as' => 'tables.getAll'], 'ControllerTables@getAll');
+Route::get(['set' => '/api/{table}/{id}', 'as' => 'tables.getById'], 'ControllerTables@getById');
+Route::post(['set' => '/api/{table}', 'as' => 'tables.create'], 'ControllerTables@create');
+Route::put(['set' => '/api/{table}', 'as' => 'tables.update'], 'ControllerTables@update');
+Route::delete(['set' => '/api/{table}/{id}', 'as' => 'tables.delete'], 'ControllerTables@delete');
+
 //Artigos
 Route::get(['set' => '/artigos/numeros', 'as' => 'artigos.contarArtigos'], 'ControllerArtigos@contarArtigos');
 Route::get(['set' => '/artigo/{id}/ver', 'as' => 'artigos.ArtigoVer'], 'ControllerArtigos@ArtigoVer');                      //web service
