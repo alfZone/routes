@@ -42,9 +42,7 @@ class ControllerTables {
         $tab->prepareTable($table);
         $key = $tab->getKey();
         $p['id']=$id;
-        //echo "SELECT * FROM $table WHERE $key = :id";
         $records = $this->database->getData("SELECT * FROM $table WHERE $key = :id", $p);
-        //print_r($carro);
         if ($records) {
             $records[0]['status'] = '200'; 
             $records[0]['numElements'] = sizeof($records);  
@@ -59,54 +57,27 @@ class ControllerTables {
         $tab=new TableBD();
         $tab->prepareTable($table);
         $tab->setAllFieldAtive("new",1);
-        //print_r($_REQUEST);
         $tab->getRequestData("");
         $sql= $tab->prepareSQLInsert();
-        //echo $sql;
-        //$p['marca']=$_POST['Marca'];
-        //$p['detalhes']=$_POST['Detalhes'];
-        //$p['foto']=$_POST['Foto'];
         $records = $this->database->setData($sql);
         if ($records) {
-            //print_r($records);
-            $records[0]['status'] = '200'; 
-            $records[0]['lastInsertId'] = $records['lastInsertId'];  
-            $records[0]['msg'] = 'Foi criado o registo';  
             echo json_encode($records);
         } else {
             echo json_encode(['msg' => 'Falhou a criação do registo ', 'status' => '404']);
         }
     }
 
-    // Atualizar um carro
+    // update an existing record
     public function update($table) {
         parse_str(file_get_contents("php://input"), $putData);
         $_REQUEST= $putData;
-        //print_r($_REQUEST);
         $tab=new TableBD();
         $tab->prepareTable($table);
         $tab->setAllFieldAtive("new",1);
-        //$key = $tab->getKey();
-        //echo "Key: $key<br>";
-        
-        //$tab->findKey();
-        //print_r($_REQUEST);
         $tab->getRequestData("");
         $sql= $tab->preparaSQLupdate(0,"");
-
-        //echo $sql;
-
-        //$p['marca']=$putData['Marca'];
-        //$p['detalhes']=$putData['Detalhes'];
-        //$p['foto']=$putData['Foto'];
-        //$p['id']=$putData['id'];
-
         $records = $this->database->setData($sql);
-        if ($records) {
-            print_r($records);
-            $records[0]['status'] = '200'; 
-            $records[0]['lastInsertId'] = $records['lastInsertId'];
-            $records[0]['msg'] = 'Foi atualizado o registo';    
+        if ($records) {  
             echo json_encode($records);
         } else {
             echo json_encode(['msg' => 'Falhou a atualização do Registo', 'status' => '404']);
@@ -115,29 +86,16 @@ class ControllerTables {
 
     // Deletar um carro
     public function delete($table, $id) {
-        //$p['id']=$id;
 
         $tab=new TableBD();
         $tab->prepareTable($table);
-        //$tab->setAllFieldAtive("new",1);
-        
-       
-
         $key = $tab->getKey();
-        //echo "Key: $key<br>";
-
         $_REQUEST[$key]=$id;
         $tab->getRequestData("");
          $sql=$tab->prepareSQLdelete();
-        //echo $sql;
-
-
-        $resp = $this->database->setData($sql);
+        $records = $this->database->setData($sql);
         if ($records) {
-            print_r($records);
-            $records[0]['status'] = '200'; 
-            $records[0]['lastInsertId'] = $records['lastInsertId'];
-            $records[0]['msg'] = 'Foi apagado o registo';    
+  
             echo json_encode($records);
         } else {
             echo json_encode(['msg' => 'Falhou a apagar o Registo', 'status' => '404']);
