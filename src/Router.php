@@ -1,4 +1,12 @@
 <?php
+/**
+ * The idea for this object is to provide a simple way routing.
+ * @author António Lira Fernandes
+ * @version 1.1
+ * @updated 04-08-2025 21:50:00
+ * https://github.com/alfZone/routes/
+ * 
+ */
 
 namespace src;
 
@@ -10,6 +18,7 @@ class Router
 {
 	
 	protected $route_collection;
+	public $dispacher;
 
 	public function __construct(){
 		$this->route_collection = new RouteCollection;
