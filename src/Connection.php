@@ -19,8 +19,7 @@ class Connection
     private $password = _BDPASS;
     public $conn;
 
-    public function getConnection()
-    {
+    public function getConnection(){
         $this->conn = null;
         try {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
@@ -31,8 +30,7 @@ class Connection
         return $this->conn;
     }
 
-    function bindParamAuto($stmt, $param, $value)
-    {
+    function bindParamAuto($stmt, $param, $value){
         if (is_int($value)) {
             $type = PDO::PARAM_INT;
         } elseif (is_bool($value)) {
@@ -47,8 +45,7 @@ class Connection
 
     //######################## GET DATA  #####################################
 
-    public function getData($sql, $parameters = [])
-    {
+    public function getData($sql, $parameters = []){
         try {
             $stmt = $this->conn->prepare($sql);
             if (!$parameters == "") {
@@ -67,6 +64,9 @@ class Connection
         }
     }
 
+
+    //######################## SET DATA  #####################################
+
     public function setData($sql, $parameters = []) {
         try {
             $stmt = $this->conn->prepare($sql);
@@ -79,10 +79,11 @@ class Connection
                 }
             }
 
-            /* echo "<pre>SQL original:\n$sql\n\nParâmetros:\n";
+            /* 
+            echo "<pre>SQL original:\n$sql\n\nParâmetros:\n";
             print_r($parameters);
             echo "</pre>";
- */
+            */
             // Executa a consulta
             $stmt->execute();
 
