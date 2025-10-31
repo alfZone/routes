@@ -1,6 +1,6 @@
 <?php
 
-//version 1.3
+//version 1.4
 // 2025/05/27
 
 namespace src;
@@ -14,8 +14,8 @@ class Connection
 {
     // put the database stuffs here in that scope
     private $host = _SERVER;
-    private $db_name = _BDUSER;
-    private $username = _BD;
+    private $db_name = _BD;
+    private $username = _BDUSER;
     private $password = _BDPASS;
     public $conn;
 
