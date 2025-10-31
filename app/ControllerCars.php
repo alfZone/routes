@@ -59,7 +59,7 @@ class ControllerCarros {
         $p['id']=$putData['id'];
 
         $resp = $this->database->setData("UPDATE alfCarros SET marca = :marca, detalhes = :detalhes, foto = :foto WHERE id = :id", $p);
-        echo json_encode($resp);
+        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
     }
 
     // Deletar um carro
@@ -67,7 +67,7 @@ class ControllerCarros {
         $p['id']=$id;
 
         $resp = $this->database->setData("DELETE FROM alfCarros WHERE id = :id", $p);
-        echo json_encode($resp);
+        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
     }
 
 }
