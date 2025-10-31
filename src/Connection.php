@@ -1,7 +1,7 @@
 <?php
 
-//version 1.4
-// 2025/05/27
+//version 2.0
+// 2025/10/31
 
 namespace src;
 
@@ -45,6 +45,8 @@ class Connection
         $stmt->bindParam($param, $value, $type);
     }
 
+    //######################## GET DATA  #####################################
+
     public function getData($sql, $parameters = [])
     {
         try {
@@ -55,14 +57,17 @@ class Connection
                 }
             }
             $stmt->execute();
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $data =$stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $data[0]['numElements']=count($data);
+            $data[0]['msg']='ok';
+            $data[0]['status']='200';
+            return $data;
         } catch (\PDOException $e) {
             return json_encode(['msg' => 'Erro: ' . $e->getMessage(), 'status' => '500']);
         }
     }
 
-    public function setData($sql, $parameters = [])
-    {
+    public function setData($sql, $parameters = []) {
         try {
             $stmt = $this->conn->prepare($sql);
 
