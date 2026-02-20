@@ -43,6 +43,12 @@ class ControllerCarros {
 
     // Criar um novo carro
     public function create() {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if($input){
+            $_POST = $input;
+        }
+        
         $p['marca']=$_POST['Marca'];
         $p['detalhes']=$_POST['Detalhes'];
         $p['foto']=$_POST['Foto'];
