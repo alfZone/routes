@@ -1,6 +1,8 @@
 <?php
 namespace app;
 use src\Connection;
+use src\Response;
+use src\Control;
 use classes\db\TableBD;
 use PDO;
 
@@ -11,16 +13,17 @@ use PDO;
 //It is designed to be flexible and can work with any table in the database
 //It uses the TableBD class to prepare the table and handle field mappings
 //It returns JSON responses with status codes and messages for success or failure
-//Version 1.0
-//Date: 2025/05/27  
+//Version 2.0
+//Date: 2026/05/27  
 class ControllerTables {
 
     private $conn;
     private $database;
-
+    private $resp;
     public function __construct() {
         $this->database = new Connection();
         $this->conn = $this->database->getConnection();
+        $this->resp = new Response();
 
     }
 
@@ -30,9 +33,9 @@ class ControllerTables {
         if ($records) {
             $records[0]['status'] = '200'; 
             $records[0]['numElements'] = sizeof($records);  
-            echo json_encode($records);
+            $this->resp->data($records);
         } else {
-            echo json_encode(['msg' => 'Registo nao encontrado', 'status' => '404']);
+            $this->resp->error('Registo nao encontrado', 404);
         }
     }
 
@@ -46,14 +49,23 @@ class ControllerTables {
         if ($records) {
             $records[0]['status'] = '200'; 
             $records[0]['numElements'] = sizeof($records);  
-            echo json_encode($records);
+            $this->resp->data($records);
         } else {
-            echo json_encode(['msg' => 'Registo nao encontrado', 'status' => '404']);
+            $this->resp->error('Registo nao encontrado', 404);
         }
     }
 
     // Create a new record
     public function create($table) {
+
+        $ctrl = new Control();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (!$ctrl->checkRateLimit($ip, 3, 60)) {
+            $this->resp->error('Muitas tentativas. Aguarde alguns minutos.', 429, 'Too Many Requests');
+            //echo json_encode(['error' => 'Muitas tentativas. Aguarde alguns minutos.'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
         $tab=new TableBD();
         $tab->prepareTable($table);
         $tab->setAllFieldAtive("new",1);
@@ -61,9 +73,9 @@ class ControllerTables {
         $sql= $tab->prepareSQLInsert();
         $records = $this->database->setData($sql);
         if ($records) {
-            echo json_encode($records);
+            $this->resp->data($records);
         } else {
-            echo json_encode(['msg' => 'Falhou a criação do registo ', 'status' => '404']);
+            $this->resp->error('Falhou a criação do registo', 404);
         }
     }
 
@@ -78,9 +90,9 @@ class ControllerTables {
         $sql= $tab->preparaSQLupdate(0,"");
         $records = $this->database->setData($sql);
         if ($records) {  
-            echo json_encode($records);
+            $this->resp->data($records);
         } else {
-            echo json_encode(['msg' => 'Falhou a atualização do Registo', 'status' => '404']);
+            $this->resp->error('Falhou a atualização do Registo', 404);
         }
     }
 
@@ -95,10 +107,9 @@ class ControllerTables {
          $sql=$tab->prepareSQLdelete();
         $records = $this->database->setData($sql);
         if ($records) {
-  
-            echo json_encode($records);
+            $this->resp->data($records);
         } else {
-            echo json_encode(['msg' => 'Falhou a apagar o Registo', 'status' => '404']);
+            $this->resp->error('Falhou a apagar o Registo', 404);
         }
     }
 
