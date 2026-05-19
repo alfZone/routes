@@ -3,12 +3,13 @@
 /**
  * @autores alf
  * @copyright 2025
- * @ver 2.0
+ * @ver 3.0
  */
 
 
 namespace app;
 use src\Connection;
+use src\Control;
 use PDO;
 
 //require_once 'Database.php'; // Arquivo de conexão com a base de dados
@@ -43,6 +44,14 @@ class ControllerCarros {
 
     // Criar um novo carro
     public function create() {
+
+        $ctrl = new Control();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (!$ctrl->checkRateLimit($ip, 3, 60)) {
+            echo json_encode(['error' => 'Muitas tentativas. Aguarde alguns minutos.'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        
         $input = json_decode(file_get_contents('php://input'), true);
 
         if($input){
