@@ -3,13 +3,14 @@
 /**
  * @autores alf
  * @copyright 2025
- * @ver 3.0
+ * @ver 4.1
  */
 
 
 namespace app;
 use src\Connection;
 use src\Control;
+use src\Response;
 use PDO;
 
 //require_once 'Database.php'; // Arquivo de conexão com a base de dados
@@ -18,16 +19,18 @@ class ControllerCarros {
 
     private $conn;
     private $database;
+    private $resp;
 
     public function __construct() {
         $this->database = new Connection();
         $this->conn = $this->database->getConnection();
+        $this->resp = new Response();
     }
 
     // Obter todos os carros
     public function getAll() {
         $carros = $this->database->getData("SELECT * FROM alfCarros");
-        echo json_encode($carros, JSON_UNESCAPED_UNICODE);
+        echo $this->resp->data($carros);
     }
 
     // Obter carro por ID
@@ -36,9 +39,9 @@ class ControllerCarros {
         $carro = $this->database->getData("SELECT * FROM alfCarros WHERE id = :id", $p);
         //print_r($carro);
         if ($carro) {
-            echo json_encode($carro, JSON_UNESCAPED_UNICODE);
+            echo $this->resp->data($carro);
         } else {
-            echo json_encode(['msg' => 'Carro não encontrado', 'status' => '404']);
+            echo $this->resp->error('Carro não encontrado', 404);
         }
     }
 
@@ -48,7 +51,7 @@ class ControllerCarros {
         $ctrl = new Control();
         $ip = $_SERVER['REMOTE_ADDR'];
         if (!$ctrl->checkRateLimit($ip, 3, 60)) {
-            echo json_encode(['error' => 'Muitas tentativas. Aguarde alguns minutos.'], JSON_UNESCAPED_UNICODE);
+            echo $this->resp->error('Muitas tentativas. Aguarde alguns minutos.', 429, 'Too Many Requests');
             exit;
         }
         
@@ -62,7 +65,7 @@ class ControllerCarros {
         $p['detalhes']=$_POST['Detalhes'];
         $p['foto']=$_POST['Foto'];
         $resp = $this->database->setData("INSERT INTO alfCarros (marca, detalhes, foto) VALUES (:marca, :detalhes, :foto)", $p);
-        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
+        echo $this->resp->data($resp);
     }
 
     // Atualizar um carro
@@ -74,7 +77,7 @@ class ControllerCarros {
         $p['id']=$putData['id'];
 
         $resp = $this->database->setData("UPDATE alfCarros SET marca = :marca, detalhes = :detalhes, foto = :foto WHERE id = :id", $p);
-        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
+        echo $this->resp->data($resp);
     }
 
     // Deletar um carro
@@ -82,7 +85,7 @@ class ControllerCarros {
         $p['id']=$id;
 
         $resp = $this->database->setData("DELETE FROM alfCarros WHERE id = :id", $p);
-        echo json_encode($resp, JSON_UNESCAPED_UNICODE);
+        echo $this->resp->data($resp);
     }
 
 }
