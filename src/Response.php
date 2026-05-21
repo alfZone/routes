@@ -1,12 +1,11 @@
 <?php
 
-//version 1.0
+//version 1.1
 // 2026/05/31
 
 namespace src;
 
-class Response
-{
+class Response{
 	
 
 	public function __construct(){
@@ -18,14 +17,15 @@ class Response
 			'success' => true,  // boolean, não string
 			'message' => $msg,
 			'code' => 200,
+			'status' => 200,
 			'timestamp' => date('Y-m-d H:i:s'),
 			'data' => $data,              // para respostas de sucesso
 		];
-		echo json_encode($resp, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+		return json_encode($resp, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 
 	public function data($data=""){
-		echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+		return json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 
 	public function error($msg, $code = 500, $error=""){
@@ -33,10 +33,11 @@ class Response
 			'success' => false,
 			'message' => $msg,
 			'code' => $code,
+			'status' => $code,
 			'timestamp' => date('Y-m-d H:i:s'),
 			'error' => $error
 		];
-		echo json_encode($resp, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+		return json_encode($resp, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 
 	public function header(){
